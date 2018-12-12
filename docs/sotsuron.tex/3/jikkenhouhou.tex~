@@ -1,0 +1,33 @@
+実験は九州工業大学教育研究3号棟周囲をP3-ATをジョイスティックによる手動操作で走
+行させ，地磁気方位センサのデータとKinectセンサから得られる
+RGB-Dデータを取得する. これらのデータより，自己姿勢
+推定を行う．また，Kinectセンサから得られる各時刻での自己位置をPFによる自己姿勢
+推定に用いるために，Kinect直交座標を北を$y$軸方
+向，東を$x$軸方向とした，世界座標系へと変換する．走行経路を図\ref{走行経路}に
+示す. 
+
+%%経路
+\begin{figure}[h]
+\centering
+\begin{tabular}{cc}
+\includegraphics [width=9cm] {./fig/soukoukeiro2017.eps}
+\end{tabular} 
+\caption{走行経路}\label{走行経路}
+\end{figure}
+
+\begin{comment}
+\newpage
+GPSデータは北緯，東経，衛星補足数として得られる．GPS座標を世界座標へと変換する．時刻$k$での北緯，東経を$\acute{N}_{k}$，$\acute{E}_{k}$とすると，東経の変換は
+\begin{equation}
+ \acute{x}_{k}
+  =(\acute{E}_{k}-\acute{E}_{0})
+  \frac{\beta}{360}\
+  \cos\left(\frac{\pi\acute{N}_{0}}{180}\right)
+\end{equation}
+となる．ここで$\beta$は赤道長で$40075.017$[km]である．同時に北緯は
+\begin{equation}
+ \acute{y}_{k}=(\acute{N}_{k}-\acute{N}_{0})\frac{\pi\gamma}{360}
+\end{equation}
+となる．ここで$\gamma$は北極と南極を結んだ直径で$12756.274$[km]である．
+\par
+\end{comment}

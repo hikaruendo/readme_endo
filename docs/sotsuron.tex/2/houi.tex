@@ -1,0 +1,18 @@
+先行研究ではGPSと地磁気方位センサおよびKinectセンサを用いるPFにより自己
+姿勢推定を行い, Kinectセンサより良い結果が得られることが分かった. 本研究
+では, Kinectセンサのデータから得られた自己姿勢推定結果を地図情報と地磁気
+方位センサを用いて修正することを目的とする. 地磁気方位センサにより得られ
+たデータを図\ref{deg}に示す. この図から一定時間おきにロボットがおよそ90
+度ずつ回転しており, ロボットが実際に移動した経路に沿ったデータを取得して
+いることがわかる.
+
+
+
+\begin{figure}[h]
+ \begin{center}
+  \begin{tabular}{cc}
+   \includegraphics [height=8cm,width=11cm] {./fig/houiend.eps}
+   \end{tabular}
+  \end{center}
+ \caption{地磁気方位センサのデータ}\label{deg}
+\end{figure}

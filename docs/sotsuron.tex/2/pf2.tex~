@@ -1,0 +1,136 @@
+パーティクルフィルタ(PF)とは確率密度分布を多数のサンプルによって近似する手法の一つである．状態空間中のパーティクルと呼ばれる多数の粒子により，ロボットの姿勢に関する仮説を複
+数立てることにより分布を近似し，それを追跡，時間更新するアルゴリズムであ
+る．本研究で実装するPFのアルゴリズムを以下に簡潔に示す．尚，本研究に合わ
+せて我々の研究
+室で従来の自己姿勢推定に用いられていたものを改良しており，先行研究論文でも
+紹介されているものを一部参考にしている．[1]\\
+ まず，時刻$k-1$でのロボットの姿勢を
+ $\vec{x}_{k-1}=(x_{k-1},y_{k-1},z_{k-1},\theta_{k-1})^T$とし，その時刻の姿勢に
+ ついての各パーティクルの分布を$r(\vec{x}_{k-1})$とする．このとき，パーティクル群
+$\bigl< \vec{X}_{k-1}^{[m]} \bigr>_{m=1}^{M}$による近似は
+$\bigl< \vec{X}_{k-1}^{[m]} \bigr>_{m=1}^{M}
+=\bigl<\vec{x}_{k-1}^{[m]},w_{k-1}^{[m]} \bigr>_{m=1}^{M}$
+のように与えられているものとする．ここで，$M$はパーティクル数であり，各々
+の姿勢$\vec{x}_{k-1}^{[m]}$とその重み(尤度)$w_{k-1}^{[m]}$をもつ複数のパー
+ティクルにより，パーティクル群が構成される．ここで上添字$[m](m=1,2,\cdots,M)$
+はパーティクルのインデックスを表しており，各重み$w_{k-1}^{[m]}$は
+$0 \leq w_{k-1}^{[m]} \leq 1$，$\sum_{m=1}^{[M]} w_{k-1}^{[m]}=1$
+を満たすものとする．\par
+PFは以下の$3$ステップの処理を行う．ただし，時刻$0$における初期状態については
+すべてのパーティクルに対し，
+$\bigl< \vec{X}_{0}^{[m]} \bigr>_{m=1}^{M}
+=\bigl< \vec{x}_{0}^{[m]},w_{0}^{[m]} \bigr>_{m=1}^{M}
+=\bigl< (0,0,0,0)^T,\frac{1}{M} \bigr>_{m=1}^{M}$
+と与えておくものとする．
+\begin{enumerate}
+ \item[Step 1:]{\bf 姿勢推定}\par
+ロボットの位置$\vec{x}_{t}=({x}_{t},{y}_{t},{z}_{t})^T$と時刻${T}_{t}$
+時刻$k-1$における姿勢$\vec{x}_{k-1}^{[m]}$とロボットの制御入力
+$\vec{u}_{k-1}$が与えられた下で，次時刻$k$における姿勢$\vec{x}_k$
+に関する提案分布$\tilde{q}(\vec{x}_k)$に重み$w$を付加し，パーティクル群
+$\bigl< \tilde{\vec{X}}_{k}^{[m]} \bigr>_{m=1}^M
+=\bigl< (\tilde{\vec{x}}_{k}^{[m]},\tilde{w}_{k}^{[m]}) \bigr>_{m=1}^{M}$
+を生成する．この処理は本論文の付録Aに述べているロボットの速度動作モデルを用いて，次時刻に置けるロボットの姿勢の仮説を複数サンプリングするものである．つまり，各パーティクルごとにロボッ
+	       トの制御入力に異なるノイズを加え新たな制御入力
+$\hat{\vec{u}}_{k-1}^{[m]}=(\hat{v}_{k-1}^{[m]},\hat{\omega}_{k-1}^{[m]})^T
+=(v_{k-1}+\varepsilon^{[m]},\omega_{k-1}+\varepsilon^{[m]})^T$
+を生成することで，$\hat{\omega}_{k-1}^{[m]} \neq 0$のときの
+次時刻における姿勢の仮説$\tilde{\vec{x}}_{k}^{[m]}$が次式のように求めら
+れる．
+\begin{equation}
+ \tilde{\vec{x}}_{k}^{[m]}=\vec{x}_{k-1}^{[m]}+\left(
+					      \begin{array}{c}
+					       -\frac{\hat{v}_{k-1}^{[m]}}{\hat{\omega}_{k-1}^{[m]}}
+						\sin{\theta_{k-1}^{[m]}}
+						+\frac{\hat{v}_{k-1}^{[m]}}{\hat{\omega}_{k-1}^{[m]}}
+						\sin{(\theta_{k-1}^{[m]}+\hat{\omega}_{k-1}^{[m]}\Delta
+						t_{k-1})}\\
+					       \frac{\hat{v}_{k-1}^{[m]}}{\hat{\omega}_{k-1}^{[m]}}
+						\cos{\theta_{k-1}^{[m]}}
+						-\frac{\hat{v}_{k-1}^{[m]}}{\hat{\omega}_{k-1}^{[m]}}
+						\cos{(\theta_{k-1}^{[m]}+\hat{\omega}_{k-1}^{[m]}\Delta
+						t_{k-1})}\\
+					       \hat{\omega}_{k-1}^{[m]}\Delta
+						t_{k-1}\\
+					      \end{array}
+					     \right)
+\end{equation}\\
+ \item[Step 2:]{\bf 重み(尤度)の計算}\par
+方位センサと地図情報を用いて，速度動作モデルによって求められた
+現在の姿勢推定値
+$\tilde{\vec{x}}_{k}^{[m]}$
+とのマッチングにより分布の重み(尤度)を計算する．
+方位センサの計測値を$\theta_k$とする．方位センサの計測値と推定値との尤度を
+\begin{equation}
+ \tilde{w}_{1,k}^{[m]}=\exp\left(-\frac{(\tilde{\theta}_k^{[m]}-\theta_k)^2}{A}\right)
+\end{equation}
+と求める．ここで，$A$は調整すべきパラメータである．
+
+また, Kinectにより得られた自己姿勢推定値から最も近い地図情報までの距離を$L$とする. 地図情報の尤度を
+\begin{equation}
+\tilde{w}_{2,k}=\left\{
+   \begin{array}{c}
+    1~~~~~~~~~~~~~~~~~~~~\left(L^2<W_{road}\right)\\
+    \exp\left(-\frac{(L-W_{road})^2}{\sqrt{2\sigma}}\right)~~~~~\left(L^2\geq W_{road}\right)
+     \end{array}\right.\\
+ \label{alpha}
+\end{equation}
+と求める. ただし$\sigma$は調整すべきパラメータ, $W_{road}$は道幅である．
+
+これらの尤度を使い正規化前のパーティクルの尤度を
+\begin{equation}
+\tilde{w}_{3,k}^{[m]}=B\tilde{w}_{1,k}^{[m]}+(1-B)\tilde{w}_{2,k}^{[m]}
+ \label{w:eq}
+\end{equation}
+とする．ここで，$B$は調整すべきパラメータである. 式(\ref{w:eq})を正規化することで各パーティクルの尤度を次のように求める．
+\begin{equation}
+ \tilde{w}_{k}^{[m]}=\frac{\tilde{w}_{3,k}^{[m]}}{\sum_{m=1}^{M} \tilde{w}_{3,k}^{[m]}}
+\end{equation}\\
+\newpage
+ \item[Step 3:]{\bf リサンプリング}\par
+最後に尤度計算によって各パーティクルの分布が偏ってしまった場合
+リサンプリングを行う．本研究ではリサンプリングを行う条件として
+次式に示す有効サンプルサイズ(ESS:Effective~\\Sample~Size)を
+利用しこの値がパーティクル数の半分以下になったときのみ
+リサンプリングを行う，
+\begin{eqnarray}
+ N_{\rm ess}=\left(\sum_m (w_k^{[m]})^2\right)^{-1} \label{ESS}
+\end{eqnarray}
+リサンプリングは仮のパーティクル集合
+$\bigl< \tilde{\vec{X}}_{k}^{[m]} \bigr>_{m=1}^M$
+の中の状態変数の各要素$\tilde{\vec{x}}_k^{[m]}$を各パーティクルの
+尤度$\tilde{w}_{k}^{[m]}$に比例した確率で復元抽出を行う．
+\begin{eqnarray}
+ \vec{x}_{k}^{[m]} &\sim& \left\{
+			   \begin{array}{c}
+			    \tilde{\vec{x}}_k^{[1]}~\text{with~prob.}
+			     \propto \tilde{w}_k^{[1]}\\
+			    \tilde{\vec{x}}_k^{[2]}~\text{with~prob.}
+			     \propto \tilde{w}_k^{[2]}\\
+			    \vdots\\
+			    \tilde{\vec{x}}_k^{[M]}~\text{with~prob.}
+			     \propto \tilde{w}_k^{[M]}\\
+			   \end{array}\right.\\
+ w_{k}^{[m]} &:=& \frac{1}{M}
+\end{eqnarray}
+$\tilde{w}_{k}^{[m]}$が大きいほど抽出される確率は高くなるので，
+リサンプリング後の集合には重複するパーティクルが多く含まれている．以上の
+手順により時刻$k$のPFの分布を近似するパーティクル群が得られる．
+\begin{equation}
+ \bigl< \vec{X}_{k}^{[m]} \bigr>_{m=1}^M
+  =\bigl< \vec{x}_k^{[m]},w_k^{[m]} \bigr>_{m=1}^M
+\end{equation}
+以上の$3$ステップの処理を行うことにより，各時刻における目標分布，すなわち時刻$k$
+での自己姿勢を次式によって推定できる．
+\begin{equation}
+ \bar{\vec{x}}_k=\left(
+		 \begin{array}{c}
+		  \bar{x}_k\\
+		  \bar{y}_k\\
+		  \bar{\theta}_k\\
+		 \end{array}
+		 \right)
+ =\sum_{m=1}^M w_k^{[m]}\vec{x}_k^{[m]}
+\end{equation}
+
+\end{enumerate}

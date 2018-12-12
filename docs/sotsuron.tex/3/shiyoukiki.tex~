@@ -1,0 +1,38 @@
+本研究は，移動ロボットにMobileRobots社のP3-AT図\ref{P3-AT}，GPSにWintec製の
+WGM-302U，地磁気方位センサにHoneywell社のHMC6352，RGB-Dカメラ
+兼深度センサにXbox One Kinectセンサ図\ref{Kinectセンサ}を用いる．Kinect
+センサの仕様について表\ref{kinectセンサの仕様}に示す.
+%%kinect仕様
+\begin{table}[h]
+  \begin{center}
+   \caption{Kinectセンサの仕様}\label{kinectセンサの仕様}
+   \begin{tabular}{|c|c|c|}
+    \hline
+    & 解像度 & 1920×1080 \\ \cline{2-3}
+    色& フレームレート & 30[fps] \\ \cline{2-3}
+    & フレームレート(暗所) & 15[fps] \\ \hline
+    & 測定範囲 & 0.5 $\sim$ 8.0[m]\\ \cline{2-3}
+    深度 & 解像度 & 512×424 \\ \cline{2-3}
+    & 深度フレームレート & 30[fps] \\ \hline
+    水平角度 & \multicolumn{2}{|c|}{70[deg]} \\ \hline
+    垂直角度 & \multicolumn{2}{|c|}{60[deg]} \\ \hline
+    \end{tabular}
+   \end{center}
+\end{table}
+%%P3-AT
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics [width=9.0cm,angle=270] {./fig/rob.eps}
+\end{tabular}
+\end{center}
+\caption{P3-AT}\label{P3-AT}
+\end{figure}
+%%Kinect
+\begin{figure}[h]
+\centering
+\begin{tabular}{cc}
+\includegraphics [width=9.0cm]{./fig/Kinect.eps}
+\end{tabular}
+\caption{Kinectセンサ}\label{Kinectセンサ}
+\end{figure}

@@ -1,0 +1,179 @@
+\documentclass[12pt,a4j]{jarticle}
+\floatsep=10mm
+\textfloatsep=10mm
+\usepackage[dvips]{graphicx}
+\usepackage{graphicx}
+\usepackage{amscd}
+\usepackage{multirow}
+\usepackage{epsfig}
+\usepackage{amsmath,amssymb,epsf}
+\usepackage{comment}
+\usepackage{graphicx,psfrag}
+\usepackage{bm}
+\def\vec#1{\mbox{\boldmath$#1$}}
+\def\sgn#1{\mbox{sgn($#1$)}}
+\def\c#1{^{#1}}
+\def\argmin#1{\underset{#1}{\mbox{argmin}}}
+\def\leqq{\le}
+\def\geqq{\ge}
+%%%ページレイアウトのプリアンブル%%%%
+\setlength{\unitlength}{1mm}
+\setlength{\topmargin}{-1cm}
+\setlength{\oddsidemargin}{-0.55cm}
+\setlength{\evensidemargin}{-0.55cm}
+\setlength{\textheight}{24cm}
+\setlength{\textwidth}{17cm}
+\renewcommand{\baselinestretch}{1.3}
+
+%%%%%%%%%%%%%図表の割合%%%%%%%%%%%%%%%
+\setcounter{topnumber}{5}%    ページ上部の図表は 5 個まで
+\def\topfraction{1.00}%       ページの上 1.00 まで図表で占めて可
+\setcounter{bottomnumber}{5}% ページ下部の図表は 5 個まで
+\def\bottomfraction{1.00}%    ページの下 1.00 まで図表で占めて可
+\setcounter{totalnumber}{10}% ページあたりの図表は 10 個まで
+\def\textfraction{0.1}%      ページうち本文が占める割合の下限
+\def\floatpagefraction{0.6}%  図表だけのページは少なくともこれだけを図表が占める
+
+
+%\documentclass[12pt,a4j,epsf,amstex,righttag]{jarticle}
+%%%%%%%%%%%% 以下はLinux の Latex2e でコンパイルするとき
+% rcp hirata.tex izanagi:~/tex/sotu/sotu98/
+%%%%%%%%%%%% (muleでのキー操作は^ctj)
+
+%%%%%%%%%%%%% 以下はUnix の amslatex でコンパイルするとき
+%\documentstyle[12pt,a4j,epsf,amstex,righttag]{jarticle}
+%\def\myepsfile#1#2#3{\epsfile{file=#1,width=#2}}
+%%%%%%%%%%%%% 以上はUnix の amslatex でコンパイルするとき
+
+% グラフィックスの使用
+%\usepackage[dvips]{graphicx}
+% -- AMSパッケージ・AMSFonts
+%\usepackage{amsmath,amssymb}
+% 数式用フォント
+%\\usepackage{mathptmx}
+%\setlength{\topmargin}{.5cm}
+%\setlength{\unitlength}{1mm}
+\def\dint_#1^#2{\displaystyle{\int_{#1}^{#2}}}
+\def\tint_#1^#2{\textstyle{\int_{#1}^{#2}}}
+\def\dfrac#1#2{\displaystyle{\frac{#1}{#2}}}
+\def\tfrac#1#2{\textstyle{\frac{#1}{#2}}}
+\def\textem#1{\textit#1}
+\def\vec#1{\mbox{\boldmath$#1$}}
+\def\argmin#1{\underset{#1}{\mbox{argmin~}}}
+\def\argmax#1{\underset{#1}{\mbox{argmax~}}}
+\def\RealNumSet{\Bbb R}
+%\def\exp#1{e^{#1}}
+%\def\eqn#1{(\ref{#1})}
+%\def\refeq#1{式(\ref{#1})}
+%\def\reffig#1{図\ref{#1}}
+%\def\reftab#1{表\ref{#1}}
+%\def\aratio{\theta_{\alpha}}
+%\def\eratio{\theta_{H}}
+%\def\reinitratio{\theta_{r}}
+%\renewcommand{\floatpagefraction}{1}
+%\renewcommand{\topfraction}{1}
+%\renewcommand{\bottomfraction}{1}
+%\renewcommand{\textfraction}{0}
+%\renewcommand{\theequation}{\thesubsection.\arabic{equation}}
+\def\bg{{\bf{bg}}}
+\def\ob{{\bf{ob}}}
+\def\ib{{\bf{ib}}}
+\def\tst{{\bf{tst}}}
+\def\bst{{\bf{bst}}}
+\def\tr{{\bf{tr}}}
+\def\bs{{\bf{bs}}}
+\def\bb{{\bf{bb}}}
+\def\mse{{\bf{MSE}}}
+\def\mae{{\bf{MAE}}}
+\def\mxae{{\bf{MxAE}}}
+
+\begin{document}
+
+\title{\vspace{4cm}  
+卒業論文\\
+\vspace{1cm}
+地磁気方位センサと地図情報を用いるパーティクルフィルタ
+による屋外移動ロボットの自己姿勢推定結果の修正
+\vspace{4cm}  
+}
+
+\author{指導教官：黒木 秀一 教授\\
+九州工業大学  工学部\\
+機械知能工学科  知能制御工学コース\\
+学籍番号 ： 14104018\\
+提出者氏名 ：遠藤　光}
+\date{提出日 ： 2018年2月14日}
+
+%%%% 表紙  %%%%%
+\titlepage
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+%%%% 摘要 %%%%%
+\begin{center}{\Large 摘要}\end{center}
+ \input{./0/tekiyou.tex}
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+
+%%%% 目次 %%%%%
+\tableofcontents
+\newpage
+
+
+%%%%%%% 本文 %%%%%%%% 
+\section{序論}
+ \input{./1/joron.tex}
+\newpage
+
+
+\section{地磁気方位センサと地図情報を用いるパーティクルフィルタ(PF)による自己姿勢推定の修正}
+ \subsection{地図情報を用いるPFによる自己姿勢推定}
+  \subsubsection{地図情報の作成}
+  \input{./2/tizujoho.tex}
+\newpage
+  \subsubsection{方位センサの信頼度}
+  \input{./2/houi.tex}
+\newpage
+  \subsubsection{PFによる自己姿勢推定アルゴリズム}
+  \input{./2/pf2.tex}
+
+\newpage
+\section{実験}
+ \subsection{使用機器}
+  \input{./3/shiyoukiki.tex}
+ \subsection{実験方法}
+  \input{./3/jikkenhouhou.tex}
+
+\newpage
+ \subsection{実験結果と考察}
+　\subsubsection{PFによる推定結果と考察}
+  \input{./3/kekkaandkousatsu.tex}
+\clearpage
+\newpage
+\section{結論}
+  \input{./4/ketsuron.tex}
+
+%%%% 参考文献 %%%%
+\newpage
+\begin{thebibliography}{99}
+ %\bibitem{name}name，''paper name'',book name,page,year
+ \bibitem{前田拓耶}前田拓耶，''GPSと地磁気方位センサ, 地図情報を用いるパーティクルフィルタによる屋外移動ロボットの自己姿勢推定''九州工業大学卒業論文，2017．
+ \bibitem{一木爽}一木爽，''GPSと地磁気方位センサおよびKinectセンサを用いるパーティクルフィルタによる屋外移動ロボットのためのオンラインSLAM''九州工業大学卒業論文，2017．
+ \bibitem{Thrun}S.Thrun他，''確率ロボティクス''，毎日コミュニケーションズ，2004.
+\end{thebibliography}
+
+
+%%%%謝辞%%%%
+\newpage
+ \input{./5/syaji.tex}
+
+
+%%%% 付録　%%%%
+\newpage
+\section{付録}
+ \input{./6/furoku.tex}
+\newpage
+ \input{./6/furokuB.tex}
+\end{document}

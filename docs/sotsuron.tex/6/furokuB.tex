@@ -1,0 +1,88 @@
+{\Large B パーティクルフィルタの数学的導出}\par
+離散時刻$k=0,1,2,\cdots$における状態$\vec{x}_{k}$，入力$\vec{u}_{k}$，
+計測(観測)値$\vec{Z}_{k}$に対し，$\vec{x}_{k}$はMarkov性，すなわち
+$p(\vec{x}_{k}|\vec{x}_{0:k-1},\vec{u}_{1:k})=p(\vec{x}_{k}|\vec{x}_{k-1},\vec{u}_{k})$
+を満たし，さらにすべての$k$に対し，観測列$\vec{Z}_{1},\cdots,\vec{Z}_{k}$は
+状態列$\vec{x}_{0},\vec{x}_{1},\cdots,\vec{x}_{k}$が既知の条件下で独立
+(条件付独立:~~CI:~conditionally~independent)であると仮定する．
+例えば，状態推移モデル$p(\vec{x}_{k}|\vec{x}_{k-1},\vec{u}_{k})$と
+計測モデル$p(\vec{Z}_{k}|\vec{x}_{k})$が，それぞれ，
+\begin{eqnarray}
+ \vec{x}_{k} &=& f(\vec{x}_{k-1},\vec{u}_{k})+\vec{\epsilon}_{k}
+  \label{momodel:eq} \\
+ \vec{Z}_{k} &=& g(\vec{x}_{k})+\vec{\delta}_{k}
+  \label{mamodel:eq}
+\end{eqnarray}
+で与えられる制御系等が考えられる．ここでシステム関数$f(\cdot)$と
+計測関数$g(\cdot)$は決定論的(deterministic)であり，システム誤差
+$\epsilon_{k}$と計測誤差$\delta_{k}$は確率論的(stochastic)である．
+式(\ref{momodel:eq})を状態推移モデル(システムモデル，動作モデル，運動学
+的モデル)，式(\ref{mamodel:eq})を計測モデルという．\par
+PFで予測(推定)すべき状態の列$\vec{x}_{0},\vec{x}_{1},\cdots,\vec{x}_{k}$
+を$\vec{x}_{0:k}$と表すと，その同時確率分布は以下のようになる．
+まず，条件付確率の定義式に前向き予測のみにより状態推定すると仮定すること
+により，$p(\vec{x}_{k}|\vec{x}_{0:k-1},\vec{u}_{1:k},\vec{Z}_{1:k})$
+についての漸化式(再帰式)
+\begin{eqnarray}
+ p(\vec{x}_{0:k}|\vec{u}_{1:k},\vec{Z}_{1:k})=p(\vec{x}_{k}|\vec{x}_{0:k-1},\vec{u}_{1:k},\vec{Z}_{1:k})p(\vec{x}_{0:k-1}|\vec{u}_{1:k-1},\vec{Z}_{1:k-1})
+  \label{RP:eq}
+\end{eqnarray}
+を得る．さらに，この式の右辺の第1因子の$\vec{x}_{k}$の分布は，まずMarkov
+性により$\vec{x}_{k}$の分布を予測(推定)し，Bayesの定理より計測値
+$\vec{Z}_{k}$を用いて更新(修正)して求めることとすると，
+\begin{eqnarray}
+ p(\vec{x}_{k}|\vec{x}_{0:k-1},\vec{u}_{1:k},\vec{Z}_{1:k})
+  &=&
+  \frac{p(\vec{Z}_{k}|\vec{x}_{k},\vec{x}_{0:k-1},\vec{u}_{1:k},\vec{Z}_{1:k-1})p(\vec{x}_{k}|\vec{x}_{0:k-1},\vec{u}_{1:k},\vec{Z}_{1:k-1})}
+  {p(\vec{Z}_{k}|\vec{x}_{0:k-1},\vec{u}_{1:k},\vec{Z}_{1:k-1})}\nonumber\\
+ &=&
+  \eta\hspace{0.5mm}p(\vec{Z}_{k}|\vec{x}_{k})p(\vec{x}_{k}|\vec{x}_{k-1},\vec{u}_{k})
+  \label{BM:eq}
+\end{eqnarray}
+が得られる．式(\ref{BM:eq})を式(\ref{RP:eq})に代入し，
+$p(\vec{x}_{0:k}|\vec{u}_{1:k},\vec{Z}_{1:k})$
+を$r(\vec{x}_{k})$とおいて漸化式
+\begin{eqnarray}
+ r(\vec{x}_{k}):=\eta\hspace{0.5mm}
+  p(\vec{Z}_{k}|\vec{x}_{k})p(\vec{x}_{k}|\vec{x}_{k-1},\vec{u}_k)r(\vec{x}_{k-1})
+  \label{TD:eq}
+\end{eqnarray}
+が得られる．この式から時刻$k=1,2,\cdots$に対して順次得られる
+$r(\vec{x}_{k})$を時刻$k$におけるPFの目標分布(target~distribution)
+とする．\par
+PFは，前時刻で得られた目標分布(またはその近似)から，ある提案分布
+(proposal~distribution)$q(\vec{x}_{k})$を粒子(particle)の集合として予測
+生成し，重み$w_{k}$により修正した$w_{k}q(\vec{x}_{k})$により各時刻のPFの
+目標分布$p(\vec{x}_{0:k}|\vec{u}_{1:k},\vec{Z}_{1:k})$を推定する．また
+明らかに
+\begin{eqnarray}
+ w_{k}=\frac{p(\vec{x}_{0:k}|\vec{u}_{1:k},\vec{Z}_{1:k})}{q(\vec{x}_{k})}
+  =\frac{\rm 目標分布}{\rm 提案分布}
+\end{eqnarray}
+とすればよいことがわかる．最も直接的な方法は，状態推移モデル
+$p(\vec{x}_{k}|\vec{x}_{k-1},\vec{u}_{k})$を用いて提案分布を生成し，計測
+モデル$p(\vec{Z}_{k}|\vec{x}_{k})$を用いた重みで修正する．すなわち
+\begin{eqnarray}
+ q(\vec{x}_{k}) &:=&
+  p(\vec{x}_{k}|\vec{x}_{k-1},\vec{u}_{k})q(\vec{x}_{k-1})\\
+ w_{k} &:=&
+  \eta\hspace{0.5mm}p(\vec{Z}_{k}|\vec{x}_{k})w_{k-1}
+  \label{wt1:eq}
+\end{eqnarray}
+として，初期条件を$q(\vec{x}_{0})=p(\vec{x}_{0})$と$w_{0}=1/M$として
+$k=,1,2,\cdots$について，$w_{k}q(\vec{x}_{k})$により目標分布を推定する
+場合，
+$w_{k}q(\vec{x}_{k})=p(\vec{Z}_{k}|\vec{x}_{k})p(\vec{x}_{k}|\vec{x}_{k-1},\vec{u}_{k})\left[w_{k-1}q(\vec{x}_{k-1})\right]$
+となるので，$w_{k}q(\vec{x}_{k})$を正規化すれば，式(\ref{TD:eq})の目標分
+布と等価になる．なお，上記の重みはBayesの定理の尤度
+(likelihood)$p(\vec{Z}_{k}|\vec{x}_{k})$に相当するので，そう呼ぶ場合もあ
+る．\par
+さらに，上式の$q(\vec{x}_{k})$と$w_{k}$を中間の分布
+$\tilde{q}(\vec{x}_{k})$と重み$\tilde{w}_{k}$とし，
+$\tilde{q}(\vec{x}_{k})$から重み$\tilde{w}_{k}$でリサンプリングして得た
+$q(\vec{x}_{k}) \sim \tilde{w}_{k} \tilde{q}(\vec{x}_{k})$を提案分布，新
+しい重みを$w_{k}=1/M$とすると，$\sum w_{k}q(\vec{x}_{k})$で目標分布が推
+定できる．ただし，重み$w_{k}$の分布の偏りが小さいのにリサンプリングを行
+うと，モンテカルロ誤差が無用に混入することになり，かえって推定の精度が悪
+くなるので，リサンプリングは重み$w_{k}$の分布の偏りが大きい場合のみに行
+えばよい．

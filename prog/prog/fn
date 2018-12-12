@@ -1,0 +1,119 @@
+_slam.c:  U->ndata=CheckandcountINPUT(U);//in fileRorW.h
+_slam.c:  double DR=calcDR(par,U->ndata);//in pfprocess.c   //  double DR=calcDR(CL,U->ndata);//in pfprocess
+_slam.c:  int totaltime=U->ndata*U->T;
+_slam.c:	totaltime=min(U->ndata,countL);
+_slam.c:  printf("\n\n==>Total processing time is %d =min(%d,%d)",totaltime,U->ndata,countL);
+_slam.c:    case 4: printf("HU-MOMENT"); break;
+fileRorW5.c:  printf("\nInput INPUT file is %s",U->fn);
+fileRorW5.c:  if((U->fp=fopen(U->fn,"r"))==NULL){
+fileRorW5.c:    printf("\n\nERROR:CAN'T OPEN FILE (%s) :CHECK THE argv[1]\n",U->fn);
+fileRorW5.c:    fgets(buff,64,U->fp);
+fileRorW5.c:    if(feof(U->fp)) break;
+fileRorW5.c:  if(loopnum!=0) odofirst = U->timeA; 
+fileRorW5.c:  fgetpos(U->fp,&fpos);//現在のファイル位置を取得
+fileRorW5.c:    fgets(buff,64,U->fp);
+fileRorW5.c:    if(feof(U->fp)){
+fileRorW5.c:  fsetpos(U->fp,&fpos);
+fileRorW5.c:  if(U->class==1){//P3AT by yoshinaga
+fileRorW5.c:      ret=fgets(buff,64,U->fp); 
+fileRorW5.c:      if(feof(U->fp)) break;
+fileRorW5.c:      U->l++;
+fileRorW5.c:    odoend = U->timeA = min*1000000+sec*1000 + usec;
+fileRorW5.c:      double dx=x-U->x0;
+fileRorW5.c:      double dy=y-U->y0;
+fileRorW5.c:      double da=a-U->a0;
+fileRorW5.c:      //input->v=sqrt(dx*dx+dy*dy)/(U->T*lD);//return value
+fileRorW5.c:      //input->omega=da/(U->T*lD);//return value
+fileRorW5.c:    U->x0=x;U->y0=y;U->a0=a;
+fileRorW5.c:  else if(U->class==0){
+fileRorW5.c:    for(l=0;l<U->lD;l++){
+fileRorW5.c:      ret=fgets(buff,64,U->fp); 
+fileRorW5.c:      if(feof(U->fp)) break;
+fileRorW5.c:      n++;U->l++;
+fileRorW5.c:    input->v=v/n/U->T;
+fileRorW5.c:    input->omega=w/n/U->T;
+fileRorW5.c:    odofirst =  U->timeA;
+fileRorW5.c:    beforetime = U->timeA;
+fileRorW5.c:  fgetpos(U->fp,&fpos);//現在のファイル位置を取得
+fileRorW5.c:    fgets(buff,64,U->fp);
+fileRorW5.c:    if(feof(U->fp)) break;
+fileRorW5.c:  fsetpos(U->fp,&fpos);
+fileRorW5.c:  if(U->class==1){//P3AT by yoshinaga
+fileRorW5.c:      ret=fgets(buff,64,U->fp); 
+fileRorW5.c:      if(feof(U->fp)) break;
+fileRorW5.c:	x=U->x0;
+fileRorW5.c:	y=U->y0;
+fileRorW5.c:	a=U->a0;
+fileRorW5.c:      U->l++;
+fileRorW5.c:    odoend = U->timeA = min*1000000+sec*1000 + usec;
+fileRorW5.c:    U->x0=x;U->y0=y;U->a0=a;
+fileRorW5.c:  else if(U->class==0){
+fileRorW5.c:    for(l=0;l<U->lD;l++){
+fileRorW5.c:      ret=fgets(buff,64,U->fp); 
+fileRorW5.c:      if(feof(U->fp)) break;
+fileRorW5.c:      n++;U->l++;
+fileRorW5.c:    input->v=v/n/U->T;
+fileRorW5.c:    input->omega=w/n/U->T;
+fileRorW5.c:  if(U->class==1){
+fileRorW5.c:    for(l=0;l<U->lD;l++){
+fileRorW5.c:      ret=fgets(buff,64,U->fp); 
+fileRorW5.c:      if(feof(U->fp)) break;
+fileRorW5.c:      U->l++;
+fileRorW5.c:    if(U->l == U->lD){
+fileRorW5.c:      double dx=x-U->x0;
+fileRorW5.c:      double dy=y-U->y0;
+fileRorW5.c:      double da=a-U->a0;
+fileRorW5.c:      input->v=sqrt(dx*dx+dy*dy)/(U->T*n);//
+fileRorW5.c:      input->omega=da/(U->T*n);
+fileRorW5.c:    U->x0=x;U->y0=y;U->a0=a;
+fileRorW5.c:  else if(U->class==0){
+fileRorW5.c:    for(l=0;l<U->lD;l++){
+fileRorW5.c:      ret=fgets(buff,64,U->fp); 
+fileRorW5.c:      if(feof(U->fp)) break;
+fileRorW5.c:      n++;U->l++;
+fileRorW5.c:    input->v=v/n/U->T;
+fileRorW5.c:    input->omega=w/n/U->T;
+pfprocess.c:  rewind(U->fp);
+pfprocess.c:  if(U->class==1){//x,y,ang
+pfprocess.c:    fgets(buff,64,U->fp);
+pfprocess.c:      fgets(buff,64,U->fp);
+pfprocess.c:      if(feof(U->fp)) break;
+pfprocess.c:    DR*=(0.001*DELTA/U->T);
+pfprocess.c:    Dw*=(DELTA/U->T);
+pfprocess.c:      fscanf(U->fp,"%lf %lf\n",&v,&omega);
+slam8+.c:      sscanf(&argv[i][3],"%d:%lf:%lf",&(U->class),&(U->T),&(U->a0));
+slam8+.c:      par->robotang0=U->a0;
+slam8+.c:      sprintf(U->fn,"%s/%s",par->dir,p);
+slam8+.c:      sscanf(&argv[i][3],"%d:%lf",&(U->class),&(U->T));
+slam8+.c:      par->robotang0=U->a0=90;
+slam8+.c:      sprintf(U->fn,"%s/%s",par->dir,p);
+slam8+.c:  rewind(U->fp);  U->l=0;  U->timeA=0;//  U->a0=-1000;////for initialization?
+slam8+.c:  if(DELTA<U->T) DELTA=U->T;//max ZU->Ty
+slam8+.c:	if(DELTA<Z->T) DELTA=Z->T;//max ZU->T
+slam8+.c:	if(DELTA<Z->T) DELTA=Z->T;//max ZU->T
+slam8+.c:  if(DELTA<U->T) DELTA=par->DELTA=U->T;//must DELTA >= U->T
+slam8+.c:  {//for DELTA > U->T ; 
+slam8+.c:    U->lD=DELTA/U->T;
+slam8+.c:    totaltime=U->ndata*U->T/DELTA;
+slam8+.c:    printf("U->lD=%lf,totaltime=%d\n",U->lD,totaltime);
+slam8+.c:  //  for(i=0;i<U->ndata;i++){
+slam8+.c:    // get mean(average)-input for U->lD data;
+slam8+.c:	      t,nonnoisepos.pos.x/m2mm,nonnoisepos.pos.y/m2mm,nonnoisepos.theta,input.v,input.omega*R2D,U->x0/m2mm,U->y0/m2mm,U->a0);
+slam8.c:      sscanf(&argv[i][3],"%d:%lf:%lf",&(U->class),&(U->T),&(U->a0));
+slam8.c:      par->robotang0=U->a0;
+slam8.c:      sprintf(U->fn,"%s/%s",par->dir,p);
+slam8.c:      sscanf(&argv[i][3],"%d:%lf",&(U->class),&(U->T));
+slam8.c:      par->robotang0=U->a0=90;
+slam8.c:      sprintf(U->fn,"%s/%s",par->dir,p);
+slam8.c:  rewind(U->fp);  U->l=0;  U->timeA=0;//  U->a0=-1000;////for initialization?
+slam8.c:  if(DELTA<U->T) DELTA=U->T;//max ZU->Ty
+slam8.c:	if(DELTA<Z->T) DELTA=Z->T;//max ZU->T
+slam8.c:	if(DELTA<Z->T) DELTA=Z->T;//max ZU->T
+slam8.c:  if(DELTA<U->T) DELTA=par->DELTA=U->T;//must DELTA >= U->T
+slam8.c:  {//for DELTA > U->T ; 
+slam8.c:    U->lD=DELTA/U->T;
+slam8.c:    totaltime=U->ndata*U->T/DELTA;
+slam8.c:    printf("U->lD=%lf,totaltime=%d\n",U->lD,totaltime);
+slam8.c:  //  for(i=0;i<U->ndata;i++){
+slam8.c:    // get mean(average)-input for U->lD data;
+slam8.c:	      t,nonnoisepos.pos.x/m2mm,nonnoisepos.pos.y/m2mm,nonnoisepos.theta,input.v,input.omega*R2D,U->x0/m2mm,U->y0/m2mm,U->a0);

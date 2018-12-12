@@ -1,0 +1,39 @@
+{\Large A ロボットの速度動作モデル}\par
+本論文で用いたロボットの速度動作モデルについて簡潔に述べる．
+時刻$k$におけるロボットの姿勢を$\vec{x}_k=(x_k,y_k,\theta_k)$，
+入力を$\vec{u}_k=(v_k,\omega_k)^T$とする．
+入力$\vec{u}_k$にノイズが含まれない場合，ロボットの速度は
+$(v_{k-1},\omega_{k-1})$で一定であり，ロボットは半径$r_k-1=\left|\frac{v_{k-1}}{\omega_{k-1}}\right|$
+の円弧上を移動する．このとき円弧の中心座標$(x_c,y_c)$が
+\begin{equation}
+ x_c=x_{k-1}-\frac{v_{k-1}}{\omega_{k-1}}\sin{\theta_{k-1}}
+  ~,~~
+ y_c=y_{k-1}+\frac{v_{k-1}}{\omega_{k-1}}\cos{\theta_{k-1}}
+\end{equation}
+であることを用いると，$\Delta t_{k-1}$後の姿勢$\vec{x}_k$は
+$\omega_{k-1} \neq 0$のとき
+\begin{equation}
+ \label{model_e}
+ \vec{x}_k=\vec{x}_{k-1}+\left[
+			 \begin{array}{c}
+			  -\frac{v_{k-1}}{\omega_{k-1}}\sin{\theta_{k-1}}
+			   +\frac{v_{k-1}}{\omega_{k-1}}
+			    \sin{(\theta_{k-1}+\omega_{k-1} \Delta t_{k-1})}\\
+			  \frac{v_{k-1}}{\omega_{k-1}}\cos{\theta_{k-1}}
+			   -\frac{v_{k-1}}{\omega_{k-1}}
+			    \cos{(\theta_{k-1}+\omega_{k-1} \Delta t_{k-1})}\\
+			  \omega_{k-1} \Delta t_{k-1}\\
+			\end{array}
+			 \right]
+\end{equation}
+と求められる．なお，この式は$\omega_{k-1}=0$のときも満たす．
+走路の起伏や斜面のある屋外環境下では実際の入力はこのモデルに加えノイズが含
+まれる場合がある．そのためノイズが加わる場合へと拡張して考えるために，平均がゼロで有限な
+分散に従う確率変数でモデル化を行う．したがって，このときの時刻$k-1$におけ
+るロボットの制御入力は
+$\vec{\hat{u}}_{k-1} = (\hat{v}_{k-1},\hat{\omega}_{k-1})^T
+ = (v_{k-1},\omega_{k-1})^T
+ + (\varepsilon_{\alpha_{1} v^2 + \alpha_{2} \omega^2}
+ ,\varepsilon_{\alpha_{3} v^2 + \alpha_{4} \omega^2})^T$
+と表せる．これを式(\ref{model_e})に代入したものを本論文での速度動作モデ
+ルとして扱う．

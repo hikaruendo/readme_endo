@@ -1,0 +1,63 @@
+走行実験後, Kinectセンサにより得られた3次元SLAMとその3次元SLAMの自己姿勢推定
+結果をパーティクルフィルタにより修正を行った結果を図に示す. これより, 尤
+度計算に地図情報が用いられたものは, 3次元SLAMの自己姿勢推定
+結果を修正し, 地図データに近いところを推移していることがわかる. また, 尤
+度計算に地磁気方位センサしか用いられていないものは, うまく3次元SLAMの自己姿勢推定
+結果を修正できていないことがわかる.
+図を$xy$平面に射影し, 真の経路とした地図情報
+の値と, 自己姿勢推定結果をPFにより修正した値との, 平均誤差と最大誤差を示すと表のようになった．これより, 地図情報に関する尤度の係数を大きくした方がより精度の高い修正結
+果が得られることが分かる.
+
+\clearpage
+
+\begin{figure}[h]
+ \begin{center}
+  \begin{tabular}{cc}
+   \includegraphics [height=8cm,width=11cm] {./fig/3dmap.eps}
+   \end{tabular}
+  \end{center}
+ \caption{3次元SLAMの自己姿勢推定の修正結果}
+\end{figure}
+
+\begin{figure}[h]
+ \begin{center}
+  \begin{tabular}{cc}
+   \includegraphics [height=8cm,width=11cm] {./fig/map_only.eps}
+   \end{tabular}
+  \end{center}
+ \caption{(a)MAP_ONLY(\alpha=1)}
+\end{figure}
+
+\begin{figure}[h]
+ \begin{center}
+  \begin{tabular}{cc}
+   \includegraphics [height=8cm,width=11cm] {./fig/ors_only.eps}
+   \end{tabular}
+  \end{center}
+ \caption{(b)ORS_ONLY(\alpha=0)}
+\end{figure}
+
+\begin{figure}[h]
+ \begin{center}
+  \begin{tabular}{cc}
+   \includegraphics [height=8cm,width=11cm] {./fig/mapors.eps}
+   \end{tabular}
+  \end{center}
+ \caption{(c)MAP\&ORS(\alpha=0.5)}
+\end{figure}
+
+
+
+
+\begin{table}[h]
+  \begin{center}
+   \caption{真値との誤差}
+   \begin{tabular}{|c|c|c|}
+    \hline
+    & 平均誤差[m] & 最大誤差[m] \\ \hline
+    (a)MAPONLY & 0.527 & 1.51 \\ \hline
+    (b)ORSONLY & 5.28 & 14.2 \\ \hline
+    (c)MAP&ORS &  0.561 & 1.68 \\ \hline
+    \end{tabular}
+   \end{center}
+\end{table}

@@ -1,0 +1,31 @@
+本研究で用いる地図情報はグーグルマップを用いて作成する．グーグルマップより, 実際に走行した道路
+の中央付近の複数点の緯度, 経度を取得し, 北を$y$軸方向, 東を$x$軸方向とし
+た世界座標へと変換する. 時刻$k$での北緯，
+東経を$N_{k}$，$E_{k}$とすると，東経の変換は
+\begin{equation}
+ x_{k}
+  =(E_{k}-E_{0})
+  \frac{\beta}{360}\
+  cos\left(\frac{\pi N_{0}}{180}\right)
+\end{equation}
+となる．ここで$\beta$は赤道長で$40075.017$[km]である．同時に北緯は
+\begin{equation}
+ y_{k}=(N_{k}-N_{0})\frac{\pi\gamma}{360}
+\end{equation}
+となる．ここで$\gamma$は北極と南極を結んだ直径で$12756.274$[km]である．
+
+
+取得した点$\vec{m}_{i}=({x_i},{y_i})(i=1,2,3,4)$を結び,
+地図情報${\it{R}}=\{\vec{x} \mid
+\vec{x}=\alpha(\vec{m}_{i+1}-\vec{m}_{i})+\vec{m}_{i}\}(0<\alpha\leq 1, \vec{m}_{5}=\vec{m}_{1})$
+として使用する．作成した経路情報をグーグルマップに表示した図を図\ref{地図情報}に示す．
+
+\begin{figure}[h]
+ \begin{center}
+  \begin{tabular}{cc}
+   \includegraphics [height=5.0cm,width=8.0cm] {./fig/gpst.eps}
+  \end{tabular}
+ \end{center}
+ \caption{地図情報}\label{地図情報}
+\end{figure}
+\clearpage
